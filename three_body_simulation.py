@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 
 # Constants
 G = 6.67430e-11  # Gravitational constant
@@ -35,18 +36,22 @@ def update_bodies(bodies, dt):
 dt = 0.01  # Time step
 num_steps = 1000
 
-# Run simulation
-positions = [[] for _ in bodies]
-for _ in range(num_steps):
+# Set up the figure and axis
+fig, ax = plt.subplots()
+ax.set_xlim(-2, 2)
+ax.set_ylim(-2, 2)
+lines = [ax.plot([], [], 'o')[0] for _ in bodies]
+
+def init():
+    for line in lines:
+        line.set_data([], [])
+    return lines
+
+def animate(frame):
     update_bodies(bodies, dt)
     for i, body in enumerate(bodies):
-        positions[i].append(body['pos'].copy())
+        lines[i].set_data(body['pos'][0], body['pos'][1])
+    return lines
 
-# Visualization
-for i, pos in enumerate(positions):
-    pos = np.array(pos)
-    plt.plot(pos[:, 0], pos[:, 1], label=f'Body {i+1}')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.legend()
+ani = FuncAnimation(fig, animate, frames=num_steps, init_func=init, blit=True, interval=20)
 plt.show()
