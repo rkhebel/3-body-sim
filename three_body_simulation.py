@@ -32,8 +32,8 @@ simulation_running = False
 
 # Button dimensions
 button_width, button_height = 100, 50
-start_button = pygame.Rect(50, 10, button_width, button_height)
-reset_button = pygame.Rect(200, 10, button_width, button_height)
+start_button = pygame.Rect(50, HEIGHT - button_height - 10, button_width, button_height)
+reset_button = pygame.Rect(200, HEIGHT - button_height - 10, button_width, button_height)
 
 while running:
     for event in pygame.event.get():
@@ -54,7 +54,7 @@ while running:
         system.update(dt)
 
     # Clear screen
-    screen.fill((255, 255, 255))
+    screen.fill((200, 200, 200))  # Change background color to grey
 
     # Draw the masses
     for mass in masses:
