@@ -55,14 +55,19 @@ ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_title('3-Body Problem Simulation')
 
-line, = ax.plot([], [], 'o-')
+line1, = ax.plot([], [], 'o', label='Body 1')
+line2, = ax.plot([], [], 'o', label='Body 2')
+line3, = ax.plot([], [], 'o', label='Body 3')
 
 def init():
     return line,
 
 def animate(i):
-    line.set_data(xs1[:i] + xs2[:i] + xs3[:i], ys1[:i] + ys2[:i] + ys3[:i])
-    return line,
+    line1.set_data(xs1[:i], ys1[:i])
+    line2.set_data(xs2[:i], ys2[:i])
+    line3.set_data(xs3[:i], ys3[:i])
+    return line1, line2, line3,
 
 ani = animation.FuncAnimation(fig, animate, frames=len(xs1), blit=True, interval=50)
+leg = ax.legend()
 plt.show()
