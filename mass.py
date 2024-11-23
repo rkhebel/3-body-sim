@@ -1,4 +1,4 @@
-from pygame import draw
+import pygame
 import math
 
 class Mass:
@@ -11,14 +11,18 @@ class Mass:
         self.radius = radius
         self.mass = mass
 
-    def update(self, dt):
+    def update_position(self, dt):
         """Update the position of the mass based on velocity."""
         self.x += self.vx * dt
         self.y += self.vy * dt
 
     def draw(self, screen):
         """Draw the mass on the Pygame screen."""
-        draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
+        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
+        font = pygame.font.Font(None, 18)
+        text = font.render(f"({self.vx:.2f}, {self.vy:.2f})", True, (0, 0, 0))
+        text_rect = text.get_rect(center=(int(self.x), int(self.y)))
+        screen.blit(text, text_rect)
         
     def compute_grav_force(self, other_mass):
         """Compute the gravitational force between two masses."""

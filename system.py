@@ -1,7 +1,5 @@
 class System:
-    def __init__(self, width, height, masses):
-        self.width = width
-        self.height = height
+    def __init__(self, masses):
         self.masses = masses
         
     def update(self, dt):
@@ -16,4 +14,4 @@ class System:
             # Update the mass's velocity based on net force
             mass.vx += (net_force_x / mass.mass) * dt
             mass.vy += (net_force_y / mass.mass) * dt
-            mass.update(dt)
+            mass.update_position(dt)

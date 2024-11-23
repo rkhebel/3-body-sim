@@ -11,11 +11,16 @@ WIDTH, HEIGHT = 600, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two Masses Moving in Space")
 
+NUM_MASSES = 3
+
 # Function to initialize masses with random positions
-def initialize_masses():
-    mass1 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (255, 0, 0), radius=8, mass=10000000000000)
-    mass2 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (0, 0, 255), radius=8, mass=10000000000000)
-    return [mass1, mass2]
+def initialize_masses(n = NUM_MASSES):
+    mass1 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (255, 0, 0), radius=20, mass=100000000000000)
+    mass2 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (0, 0, 255), radius=20, mass=100000000000000)
+    return [
+        Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (random.randint(0,255), random.randint(0,255), random.randint(0,255)), radius=20, mass=100000000000000)
+        for _ in range(n)
+    ]
 
 # Initialize masses
 masses = initialize_masses()
