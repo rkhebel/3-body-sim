@@ -49,23 +49,20 @@ for t in np.arange(0, t_end, dt):
 import matplotlib.animation as animation
 
 fig, ax = plt.subplots()
-line1, = ax.plot([], [], label='Body 1')
-line2, = ax.plot([], [], label='Body 2')
-line3, = ax.plot([], [], label='Body 3')
+ax.set_xlim(-10, 10)
+ax.set_ylim(-10, 10)
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_title('3-Body Problem Simulation')
+
+line, = ax.plot([], [], 'o-')
 
 def init():
-    ax.set_xlim(-1, 1)
-    ax.set_ylim(-1, 1)
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_title('3-Body Problem Simulation')
-    return line1, line2, line3,
+    return line,
 
 def animate(i):
-    line1.set_data(xs1[:i], ys1[:i])
-    line2.set_data(xs2[:i], ys2[:i])
-    line3.set_data(xs3[:i], ys3[:i])
-    return line1, line2, line3,
+    line.set_data(xs1[:i] + xs2[:i] + xs3[:i], ys1[:i] + ys2[:i] + ys3[:i])
+    return line,
 
-ani = animation.FuncAnimation(fig, animate, frames=len(xs1), blit=True)
+ani = animation.FuncAnimation(fig, animate, frames=len(xs1), blit=True, interval=50)
 plt.show()
