@@ -12,8 +12,8 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Two Masses Moving in Space")
 
 # Initialize two masses
-mass1 = Mass((-1, 0), (0.1, 0.05), pygame.Color(255, 0, 0), radius=8, mass=1)  # Starts at (-1, 0), moves with (vx=0.1, vy=0.05)
-mass2 = Mass((1, 0), (-0.1, -0.05), pygame.Color(0, 0, 255), radius=8, mass=1)  # Starts at (1, 0), moves with (vx=-0.1, vy=-0.05)
+mass1 = Mass((0, 0), (0,0), "red", radius=8, mass=1)  # Starts at (-1, 0), moves with (vx=0.1, vy=0.05)
+mass2 = Mass((300, 0), (0,0), "blue", radius=8, mass=1)  # Starts at (1, 0), moves with (vx=-0.1, vy=-0.05)
 masses = [mass1, mass2]
 
 # Create a system
