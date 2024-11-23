@@ -65,8 +65,8 @@ while running:
 
     # Draw buttons
     pygame.draw.rect(screen, "gray", start_button)  # Start button
-    pygame.draw.rect(screen, "gray", reset_button)  # Reset button
     pygame.draw.rect(screen, "gray", stop_button)   # Stop button
+    pygame.draw.rect(screen, "gray", reset_button)  # Reset button
     font = pygame.font.Font(None, 36)
     start_text = font.render("Start", True, (255, 255, 255))
     reset_text = font.render("Reset", True, (255, 255, 255))
