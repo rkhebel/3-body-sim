@@ -14,11 +14,11 @@ t_end = 10.0  # end time
 dt = 0.01  # time step
 
 # Lists to store the positions and velocities
-xs1, xs2, xs3 = [], [], []
-ys1, ys2, ys3 = [], [], []
-vsx1, vsy1 = [], []
-vsx2, vsy2 = [], []
-vsx3, vsy3 = [], []
+xs1, xs2, xs3 = [x1], [x2], [x3]
+ys1, ys2, ys3 = [y1], [y2], [y3]
+vsx1, vsy1 = [vx1], [vy1]
+vsx2, vsy2 = [vx2], [vy2]
+vsx3, vsy3 = [vx3], [vy3]
 
 # Main simulation loop
 for t in np.arange(0, t_end, dt):
@@ -45,19 +45,27 @@ for t in np.arange(0, t_end, dt):
     ys2.append(y2)
     xs3.append(x3)
     ys3.append(y3)
-    vsx1.append(vx1)
-    vsy1.append(vy1)
-    vsx2.append(vx2)
-    vsy2.append(vy2)
-    vsx3.append(vx3)
-    vsy3.append(vy3)
 
-# Plot the results
-plt.plot(xs1, ys1, label='Body 1')
-plt.plot(xs2, ys2, label='Body 2')
-plt.plot(xs3, ys3, label='Body 3')
-plt.legend()
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('3-Body Problem Simulation')
+import matplotlib.animation as animation
+
+fig, ax = plt.subplots()
+line1, = ax.plot([], [], label='Body 1')
+line2, = ax.plot([], [], label='Body 2')
+line3, = ax.plot([], [], label='Body 3')
+
+def init():
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('3-Body Problem Simulation')
+    return line1, line2, line3,
+
+def animate(i):
+    line1.set_data(xs1[:i], ys1[:i])
+    line2.set_data(xs2[:i], ys2[:i])
+    line3.set_data(xs3[:i], ys3[:i])
+    return line1, line2, line3,
+
+ani = animation.FuncAnimation(fig, animate, frames=len(xs1), blit=True)
 plt.show()
