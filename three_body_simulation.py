@@ -23,12 +23,6 @@ masses = initialize_masses()
 # Create a system
 system = System(masses)
 
-# for i in range(10):
-#     print(f"Mass 1 position: {system.masses[0].x:.2f}, {system.masses[0].y:.2f}, velocity: {system.masses[0].vx:.2f}, {system.masses[0].vy:.2f}")
-#     print(f"Mass 2 position: {system.masses[1].x:.2f}, {system.masses[1].y:.2f}, velocity: {system.masses[1].vx:.2f}, {system.masses[1].vy:.2f}")
-#     system.update(1)
-
-
 # Clock to manage frame rate
 clock = pygame.time.Clock()
 
@@ -48,6 +42,9 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.collidepoint(event.pos):
+                if not simulation_running:  # Only reinitialize if not already running
+                    masses = initialize_masses()  # Reinitialize masses
+                    system = System(masses)  # Create a new system
                 simulation_running = True  # Start the simulation
             elif reset_button.collidepoint(event.pos):
                 masses = initialize_masses()  # Reinitialize masses
