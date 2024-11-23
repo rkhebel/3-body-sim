@@ -4,6 +4,7 @@ import importlib
 import random
 from mass import Mass
 from system import System
+import mass  # Import the mass module to avoid undefined name error
 
 # Initialize Pygame
 pygame.init()
