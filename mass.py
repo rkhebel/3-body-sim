@@ -24,6 +24,20 @@ class Mass:
         text_rect = text.get_rect(center=(int(self.x), int(self.y)))
         screen.blit(text, text_rect)
 
+        # Check if the mass is off-screen and display its position
+        if self.x < 0:
+            off_screen_text = font.render(f"Off left: ({self.x:.2f}, {self.y:.2f})", True, (255, 0, 0))
+            screen.blit(off_screen_text, (10, int(self.y)))
+        elif self.x > screen.get_width():
+            off_screen_text = font.render(f"Off right: ({self.x:.2f}, {self.y:.2f})", True, (255, 0, 0))
+            screen.blit(off_screen_text, (screen.get_width() - 150, int(self.y)))
+        if self.y < 0:
+            off_screen_text = font.render(f"Off top: ({self.x:.2f}, {self.y:.2f})", True, (255, 0, 0))
+            screen.blit(off_screen_text, (int(self.x), 10))
+        elif self.y > screen.get_height():
+            off_screen_text = font.render(f"Off bottom: ({self.x:.2f}, {self.y:.2f})", True, (255, 0, 0))
+            screen.blit(off_screen_text, (int(self.x), screen.get_height() - 30))
+
     def compute_grav_force(self, other_mass):
         """Compute the gravitational force between two masses."""
         G = 6.67430e-11  # Gravitational constant
@@ -37,14 +51,3 @@ class Mass:
         force_x = force * math.cos(angle)
         force_y = force * math.sin(angle)
         return force_x, force_y
-
-    def handle_off_screen(self, width, height):
-        """Handle the mass going off-screen by displaying its position."""
-        if self.x < 0:
-            print(f"Mass at ({self.x}, {self.y}) went off the left side.")
-        elif self.x > width:
-            print(f"Mass at ({self.x}, {self.y}) went off the right side.")
-        if self.y < 0:
-            print(f"Mass at ({self.x}, {self.y}) went off the top.")
-        elif self.y > height:
-            print(f"Mass at ({self.x}, {self.y}) went off the bottom.")

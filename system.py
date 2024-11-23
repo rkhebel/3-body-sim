@@ -17,7 +17,3 @@ class System:
             mass.vx += (net_force_x / mass.mass) * dt
             mass.vy += (net_force_y / mass.mass) * dt
             mass.update_position(dt)
-
-            # Check for collisions with screen boundaries
-            if mass.x < 0 or mass.x > self.width or mass.y < 0 or mass.y > self.height:
-                mass.handle_off_screen(self.width, self.height)
