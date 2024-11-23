@@ -21,7 +21,7 @@ def initialize_masses():
 masses = initialize_masses()
 
 # Create a system
-system = System(WIDTH, HEIGHT, masses)
+system = System(masses)
 
 # Clock to manage frame rate
 clock = pygame.time.Clock()
