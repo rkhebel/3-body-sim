@@ -9,10 +9,10 @@ pygame.init()
 # Screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 600, 600
 MENU_HEIGHT = 100
-PLAYABLE_WIDTH= SCREEN_WIDTH 
+PLAYABLE_WIDTH = SCREEN_WIDTH 
 PLAYABLE_HEIGHT = SCREEN_HEIGHT - MENU_HEIGHT
-BUTTON_HEIGHT = 100
-BUTTON_WIDTH = 50
+BUTTON_HEIGHT = 50
+BUTTON_WIDTH = 100
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("N Masses Moving in Space")
 
@@ -22,11 +22,11 @@ NUM_MASSES = 3
 def initialize_system(n=NUM_MASSES):
     masses = [
         Mass(
-            position = (x := random.randint(50, PLAYABLE_WIDTH-50), y := random.randint(50, PLAYABLE_HEIGHT-150)), 
-            velocity = (0, 0), 
-            color = (r := random.randint(0,255), g := random.randint(0,255), b := random.randint(0,255)),
-            max_width = PLAYABLE_WIDTH, 
-            max_height = PLAYABLE_HEIGHT,
+            position=(x := random.randint(50, PLAYABLE_WIDTH-50), y := random.randint(50, PLAYABLE_HEIGHT-150)), 
+            velocity=(0, 0), 
+            color=(r := random.randint(0, 255), g := random.randint(0, 255), b := random.randint(0, 255)),
+            max_width=PLAYABLE_WIDTH, 
+            max_height=PLAYABLE_HEIGHT,
             radius=20, 
             mass=1e16
         )
@@ -43,9 +43,9 @@ running = True
 simulation_running = False
 
 # Button dimensions
-start_button = pygame.Rect(50, 10, BUTTON_HEIGHT, BUTTON_WIDTH)
-reset_button = pygame.Rect(200, 10, BUTTON_HEIGHT, BUTTON_WIDTH)
-stop_button = pygame.Rect(350, 10, BUTTON_HEIGHT, BUTTON_WIDTH)
+start_button = pygame.Rect(50, 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+reset_button = pygame.Rect(200, 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+stop_button = pygame.Rect(350, 10, BUTTON_WIDTH, BUTTON_HEIGHT)
 
 system = initialize_system(NUM_MASSES)
 
@@ -69,11 +69,12 @@ while running:
     if simulation_running:
         system.update(dt)
 
-    for mass in system.masses:
-        mass.draw(screen)
-        
     # Clear screen
     screen.fill((200, 200, 200))  # Change background color to grey
+
+    # Draw the masses
+    for mass in system.masses:
+        mass.draw(screen)
 
     # Draw buttons
     pygame.draw.rect(screen, "gray", start_button)  # Start button
