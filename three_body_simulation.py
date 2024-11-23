@@ -24,7 +24,7 @@ def initialize_masses(n=NUM_MASSES):
 masses = initialize_masses()
 
 # Create a system
-system = System(masses)
+system = System(masses, WIDTH, HEIGHT)
 
 # Clock to manage frame rate
 clock = pygame.time.Clock()
@@ -47,7 +47,7 @@ while running:
             if start_button.collidepoint(event.pos):
                 if not simulation_running:  # Only reinitialize if not already running
                     masses = initialize_masses()  # Reinitialize masses
-                    system = System(masses)  # Create a new system
+                    system = System(masses, WIDTH, HEIGHT)  # Create a new system
                 simulation_running = True  # Start the simulation
             elif reset_button.collidepoint(event.pos):
                 masses = initialize_masses()  # Reinitialize masses

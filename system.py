@@ -1,6 +1,8 @@
 class System:
-    def __init__(self, masses):
+    def __init__(self, masses, width, height):
         self.masses = masses
+        self.width = width
+        self.height = height
         
     def update(self, dt):
         for mass in self.masses:
@@ -17,6 +19,5 @@ class System:
             mass.update_position(dt)
 
             # Check for collisions with screen boundaries
-            if mass.x < 0 or mass.x > WIDTH or mass.y < 0 or mass.y > HEIGHT:
-                mass.handle_off_screen()
-
+            if mass.x < 0 or mass.x > self.width or mass.y < 0 or mass.y > self.height:
+                mass.handle_off_screen(self.width, self.height)

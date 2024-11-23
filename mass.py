@@ -38,13 +38,13 @@ class Mass:
         force_y = force * math.sin(angle)
         return force_x, force_y
 
-    def handle_off_screen(self):
+    def handle_off_screen(self, width, height):
         """Handle the mass going off-screen by displaying its position."""
         if self.x < 0:
             print(f"Mass at ({self.x}, {self.y}) went off the left side.")
-        elif self.x > WIDTH:
+        elif self.x > width:
             print(f"Mass at ({self.x}, {self.y}) went off the right side.")
         if self.y < 0:
             print(f"Mass at ({self.x}, {self.y}) went off the top.")
-        elif self.y > HEIGHT:
+        elif self.y > height:
             print(f"Mass at ({self.x}, {self.y}) went off the bottom.")
