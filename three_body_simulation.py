@@ -16,7 +16,7 @@ NUM_MASSES = 3
 # Function to initialize masses with random positions
 def initialize_masses(n=NUM_MASSES):
     return [
-        Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (random.randint(0,255), random.randint(0,255), random.randint(0,255)), radius=20, mass=1e16)
+        Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-150)), (0, 0), (random.randint(0,255), random.randint(0,255), random.randint(0,255)), radius=20, mass=1e16)
         for _ in range(n)
     ]
 
@@ -35,9 +35,12 @@ simulation_running = False
 
 # Button dimensions
 button_width, button_height = 100, 50
-start_button = pygame.Rect(50, HEIGHT - button_height - 10, button_width, button_height)
-reset_button = pygame.Rect(200, HEIGHT - button_height - 10, button_width, button_height)
-stop_button = pygame.Rect(350, HEIGHT - button_height - 10, button_width, button_height)
+start_button = pygame.Rect(50, 10, button_width, button_height)
+reset_button = pygame.Rect(200, 10, button_width, button_height)
+stop_button = pygame.Rect(350, 10, button_width, button_height)
+
+# Playable area dimensions
+playable_area = pygame.Rect(0, button_height + 10, WIDTH, HEIGHT - button_height - 10)
 
 while running:
     for event in pygame.event.get():
@@ -62,6 +65,9 @@ while running:
 
     # Clear screen
     screen.fill((200, 200, 200))  # Change background color to grey
+
+    # Draw the playable area
+    pygame.draw.rect(screen, (255, 255, 255), playable_area, 2)  # Outline of playable area
 
     # Draw the masses
     for mass in masses:
