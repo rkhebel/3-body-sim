@@ -50,7 +50,7 @@ def init():
 def animate(frame):
     update_bodies(bodies, dt)
     for i, body in enumerate(bodies):
-        lines[i].set_data(body['pos'][0], body['pos'][1])
+        lines[i].set_data([body['pos'][0]], [body['pos'][1]])
     return lines
 
 ani = FuncAnimation(fig, animate, frames=num_steps, init_func=init, blit=True, interval=20)
