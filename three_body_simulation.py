@@ -13,8 +13,8 @@ pygame.display.set_caption("Two Masses Moving in Space")
 
 # Function to initialize masses with random positions
 def initialize_masses():
-    mass1 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (255, 0, 0), radius=8, mass=1)
-    mass2 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (0, 0, 255), radius=8, mass=1)
+    mass1 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (255, 0, 0), radius=8, mass=10000000000000)
+    mass2 = Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (0, 0, 255), radius=8, mass=10000000000000)
     return [mass1, mass2]
 
 # Initialize masses
@@ -22,6 +22,12 @@ masses = initialize_masses()
 
 # Create a system
 system = System(masses)
+
+# for i in range(10):
+#     print(f"Mass 1 position: {system.masses[0].x:.2f}, {system.masses[0].y:.2f}, velocity: {system.masses[0].vx:.2f}, {system.masses[0].vy:.2f}")
+#     print(f"Mass 2 position: {system.masses[1].x:.2f}, {system.masses[1].y:.2f}, velocity: {system.masses[1].vx:.2f}, {system.masses[1].vy:.2f}")
+#     system.update(1)
+
 
 # Clock to manage frame rate
 clock = pygame.time.Clock()
