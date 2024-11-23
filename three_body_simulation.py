@@ -42,7 +42,7 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.collidepoint(event.pos):
-                simulation_running = True
+                simulation_running = True  # Start the simulation
             elif reset_button.collidepoint(event.pos):
                 masses = initialize_masses()  # Reinitialize masses
                 simulation_running = False  # Stop the simulation
