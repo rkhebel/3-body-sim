@@ -1,10 +1,7 @@
 import pygame
-import math
-import importlib
 import random
 from mass import Mass
 from system import System
-import mass  # Import the mass module to avoid undefined name error
 
 # Initialize Pygame
 pygame.init()
@@ -42,11 +39,6 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:  # Press 'R' to reload
-                importlib.reload(mass)
-                importlib.reload(system)
-                masses = initialize_masses()  # Reinitialize masses
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.collidepoint(event.pos):
                 simulation_running = True
