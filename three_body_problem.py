@@ -60,7 +60,7 @@ line2, = ax.plot([], [], 'o', label='Body 2')
 line3, = ax.plot([], [], 'o', label='Body 3')
 
 def init():
-    return line,
+    return line1, line2, line3,
 
 def animate(i):
     line1.set_data(xs1[:i], ys1[:i])
