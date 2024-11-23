@@ -36,7 +36,11 @@ class Mass:
             screen.blit(off_screen_text, (int(self.x), 10))
         elif self.y > screen.get_height():
             off_screen_text = font.render(f"Off bottom: ({self.x:.2f}, {self.y:.2f})", True, (255, 0, 0))
-            screen.blit(off_screen_text, (int(self.x), screen.get_height() - 30))
+            # Adjust the x position based on the direction of the mass's velocity
+            if self.vx < 0:
+                screen.blit(off_screen_text, (int(self.x), screen.get_height() - 30))
+            else:
+                screen.blit(off_screen_text, (int(self.x) - 150, screen.get_height() - 30))
 
     def compute_grav_force(self, other_mass):
         """Compute the gravitational force between two masses."""
