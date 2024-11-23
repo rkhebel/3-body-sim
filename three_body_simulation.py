@@ -16,7 +16,7 @@ NUM_MASSES = 3
 # Function to initialize masses with random positions
 def initialize_masses(n=NUM_MASSES):
     return [
-        Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (random.randint(0,255), random.randint(0,255), random.randint(0,255)), radius=20, mass=random.randint(1e11, 1e12))
+        Mass((random.randint(50, WIDTH-50), random.randint(50, HEIGHT-50)), (0, 0), (random.randint(0,255), random.randint(0,255), random.randint(0,255)), radius=20, mass=1e16)
         for _ in range(n)
     ]
 
@@ -45,12 +45,10 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.collidepoint(event.pos):
-                if not simulation_running:  # Only reinitialize if not already running
-                    masses = initialize_masses()  # Reinitialize masses
-                    system = System(masses, WIDTH, HEIGHT)  # Create a new system
                 simulation_running = True  # Start the simulation
             elif reset_button.collidepoint(event.pos):
                 masses = initialize_masses()  # Reinitialize masses
+                system = System(masses, WIDTH, HEIGHT)
                 simulation_running = False  # Stop the simulation
             elif stop_button.collidepoint(event.pos):
                 simulation_running = False  # Pause the simulation
