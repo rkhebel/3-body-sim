@@ -12,15 +12,26 @@ class Mass:
         self.mass = mass
         self.max_width = max_width
         self.max_height = max_height
+        self.trail = []  # List to store previous positions for the tail effect
 
     def update_position(self, dt):
         """Update the position of the mass based on velocity."""
+        self.trail.append((self.x, self.y))  # Store the current position
         self.x += self.vx * dt
         self.y += self.vy * dt
+
+        # Limit the length of the trail
+        if len(self.trail) > 10:  # Adjust the number for longer/shorter tails
+            self.trail.pop(0)
 
     def draw(self, screen):
         """Draw the mass on the Pygame screen."""
         font = pygame.font.Font(None, 18)
+        # Draw the tail
+        if len(self.trail) > 1:
+            for i in range(len(self.trail) - 1):
+                pygame.draw.line(screen, self.color, self.trail[i], self.trail[i + 1], 2)
+
         # Only draw the mass if it's within the playable area
         if 0 <= self.x <= self.max_width and 0 <= self.y <= self.max_height:
             pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
