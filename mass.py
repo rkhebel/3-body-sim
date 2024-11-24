@@ -20,10 +20,10 @@ class Mass:
 
     def draw(self, screen):
         """Draw the mass on the Pygame screen."""
+        font = pygame.font.Font(None, 18)
         # Only draw the mass if it's within the playable area
         if 0 <= self.x <= self.max_width and 0 <= self.y <= self.max_height:
             pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
-            font = pygame.font.Font(None, 18)
             text = font.render(f"({self.vx:.2f}, {self.vy:.2f})", True, (0, 0, 0))
             text_rect = text.get_rect(center=(int(self.x), int(self.y)))
             screen.blit(text, text_rect)
