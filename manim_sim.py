@@ -1,22 +1,17 @@
-from manim import *
+from manimlib import *
+import numpy as np
 import random
 
 class Mass:
     def __init__(self, position, velocity, color, radius=0.2, mass=1):
-        self.position = position
-        self.velocity = velocity
+        self.position = np.array(position, dtype=float)
+        self.velocity = np.array(velocity, dtype=float)
         self.color = color
         self.radius = radius
         self.mass = mass
-        self.trail = []
 
     def update_position(self, dt):
-        self.trail.append(self.position)
-        self.position[0] += self.velocity[0] * dt
-        self.position[1] += self.velocity[1] * dt
-
-        if len(self.trail) > 10:
-            self.trail.pop(0)
+        self.position += self.velocity * dt  # Update position based on velocity
 
 class System:
     def __init__(self, masses):
@@ -24,53 +19,81 @@ class System:
 
     def update(self, dt):
         for mass in self.masses:
-            net_force_x, net_force_y = 0, 0
+            net_force = np.array([0.0, 0.0, 0.0])  # Reset net force
             for other_mass in self.masses:
                 if mass != other_mass:
-                    force_x, force_y = self.compute_grav_force(mass, other_mass)
-                    net_force_x += force_x
-                    net_force_y += force_y
-            
-            mass.velocity[0] += (net_force_x / mass.mass) * dt
-            mass.velocity[1] += (net_force_y / mass.mass) * dt
+                    force = self.compute_grav_force(mass, other_mass)
+                    net_force += force
+
+            # Update velocity and position
+            mass.velocity += (net_force / mass.mass) * dt
             mass.update_position(dt)
 
     def compute_grav_force(self, mass, other_mass):
-        G = 6.67430e-11
-        dx = other_mass.position[0] - mass.position[0]
-        dy = other_mass.position[1] - mass.position[1]
-        distance = np.sqrt(dx**2 + dy**2)
+        G = 1e-1  # Scaled gravitational constant
+        displacement = other_mass.position - mass.position
+        distance = np.linalg.norm(displacement)
         if distance == 0:
-            return 0, 0
-        force = G * (mass.mass * other_mass.mass) / (distance**2)
-        angle = np.arctan2(dy, dx)
-        force_x = force * np.cos(angle)
-        force_y = force * np.sin(angle)
-        return force_x, force_y
+            return np.array([0.0, 0.0, 0.0])  # Avoid division by zero
+        force_magnitude = G * (mass.mass * other_mass.mass) / (distance**2)
+        force_direction = displacement / distance
+        return force_magnitude * force_direction
 
-class MassScene(Scene):
-    def construct(self):
+class NBodySimulation(Scene):
+    def construct(self):        
+        # Write title
+        text = Text("N-Body Simulation")
+        text.to_edge(UP)
+        self.play(
+            Write(text)
+        )
+        
+        # Initialize masses
+        colors = [RED, GREEN, BLUE, YELLOW, GOLD, ORANGE, PINK, PURPLE, MAROON, TEAL]
+        NUM_MASSES = 3
         masses = [
             Mass(
-                position=[random.uniform(-3, 3), random.uniform(-3, 3), 0],
-                velocity=[0, 0, 0],
-                color=BLUE,
-                radius=0.2,
-                mass=1e16
-            ) for _ in range(3)
+                position=[-1, 0, 0],
+                velocity=[0, 0.5, 0],
+                color=colors[0],
+                radius=.1,
+                mass=2
+            ),
+            Mass(
+                position=[1, 0, 0],
+                velocity=[0, -0.5, 0],
+                color=colors[1],
+                radius=.1,
+                mass=2
+            ),
+            Mass(
+                position=[0, 2, 0],
+                velocity=[.3, 0, 0],
+                color=colors[2],
+                radius=.1,
+                mass=2
+            )
         ]
+        
         system = System(masses)
 
+        # Create dots and tracers
         dots = [Dot(point=mass.position, color=mass.color, radius=mass.radius) for mass in masses]
-        self.add(*dots)
+        tracers = [TracedPath(dot.get_center, stroke_width=2, color=dot.color) for dot in dots]
 
-        # Animation loop
-        for _ in range(100):
-            dt = 0.1
-            system.update(dt)
-            for i, mass in enumerate(masses):
-                dots[i].move_to(mass.position)
-                if len(mass.trail) > 0:
-                    trail_dots = [Dot(point=pos, color=mass.color, radius=0.05) for pos in mass.trail]
-                    self.add(*trail_dots)
-            self.wait(dt)
+        # Add dots and tracers to the scene
+        self.add(*dots, *tracers)
+
+        # Updater for each dot
+        def update_dot(dot, mass):
+            def updater(mob, dt):
+                system.update(dt)  # Update the system
+                mob.move_to(mass.position)  # Move the dot to the updated position
+            return updater
+
+        # Attach updaters to each dot
+        for dot, mass in zip(dots, masses):
+            dot.add_updater(update_dot(dot, mass))
+
+        # Let the animation run for 60 seconds
+        self.wait(60)
